@@ -1,11 +1,18 @@
 // external imports
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { Box, LinearProgress } from "@mui/material";
+
+const styles = {
+  box: {
+    height: 600
+  }
+};
 
 const columns = [
   { field: "index", headerName: "Index" },
-  { field: "id", headerName: "ID" },
-  { field: "title", headerName: "Title" },
+  { field: "id", headerName: "ID", width: 250 },
+  { field: "title", headerName: "Title", width: 200 },
   { field: "danceability", headerName: "Danceability" },
   { field: "energy", headerName: "Energy" },
   { field: "mode", headerName: "Mode" },
@@ -16,16 +23,23 @@ const columns = [
   { field: "num_segments", headerName: "Num_segments" }
 ];
 
-const SongsTable = ({ rows = [] }) => (
-  <DataGrid
-    rows={rows}
-    columns={columns}
-    initialState={{
-      pagination: {
-        paginationModel: { page: 0, pageSize: 10 }
-      }
-    }}
-  />
+// Songs Table
+const SongsTable = ({ rows = [], loader = false }) => (
+  <Box sx={styles.box}>
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      initialState={{
+        pagination: {
+          paginationModel: { page: 0, pageSize: 10 }
+        }
+      }}
+      slots={{
+        loadingOverlay: LinearProgress
+      }}
+      loading={loader}
+    />
+  </Box>
 );
 
 export default SongsTable;
