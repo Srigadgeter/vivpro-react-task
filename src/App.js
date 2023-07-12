@@ -40,7 +40,7 @@ const App = () => {
         setCurrentPageData(data, currentPage, TABLE_PAGE_SIZE);
         setShowToaster(true);
         setToastInfo({
-          type: "success",
+          variant: "success",
           message: "Data fetched successfully"
         });
       })
@@ -48,7 +48,7 @@ const App = () => {
         console.error("Error >>", error);
         setShowToaster(true);
         setToastInfo({
-          type: "error",
+          variant: "error",
           message: error
         });
       })
@@ -105,7 +105,7 @@ const App = () => {
       tempLink.click();
       setShowToaster(true);
       setToastInfo({
-        type: "success",
+        variant: "success",
         message: "Data downloaded successfully"
       });
     }
@@ -136,7 +136,7 @@ const App = () => {
       <SongsTable rows={rows} loader={loader} handlePageChange={handlePageChange} />
       <Toaster
         open={showToaster}
-        type={toastInfo?.type}
+        variant={toastInfo?.variant}
         message={toastInfo?.message}
         handleClose={handleCloseToaster}
       />
