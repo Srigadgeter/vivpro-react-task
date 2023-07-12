@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 // internal imports
 import Header from "./components/Header";
 import SongsTable from "./components/SongsTable";
+import { TABLE_PAGE_SIZE } from "./utils/constants";
 
 // styles
 import "./App.css";
@@ -13,6 +14,16 @@ const App = () => {
   const [searchText, setSearchText] = useState("");
   const [isSearched, setIsSearched] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPageRows, setCurrentPageRows] = useState([]);
+
+  const setCurrentPageData = (data, page, pageSize) => {
+    const startIndex = page ? page * pageSize : page;
+    const endIndex = (page + 1) * pageSize;
+    const currentRows = data.slice(startIndex, endIndex);
+    setCurrentPage(page);
+    setCurrentPageRows(currentRows);
+  };
 
   const fetchData = (title = "") => {
     setLoader(true);
@@ -20,8 +31,8 @@ const App = () => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        // console.log("data >>", data);
         setRows(data);
+        setCurrentPageData(data, currentPage, TABLE_PAGE_SIZE);
       })
       .catch((error) => {
         console.error("Error >>", error);
@@ -29,6 +40,7 @@ const App = () => {
       .finally(() => setLoader(false));
   };
 
+  // Fetch all data at App mounts
   useEffect(() => fetchData(), []);
 
   // Handler helps to record the changes of the search field
@@ -49,15 +61,45 @@ const App = () => {
     }
   };
 
+  // Handler helps to manipulate the data into csv format
+  const convertToCSV = () => {
+    if (Object.keys(currentPageRows).length > 0) {
+      const header = Object.keys(currentPageRows[0]).join(",");
+      const records = currentPageRows.map((record) =>
+        Object.values(record)
+          .map((value) => value)
+          .join(",")
+      );
+      return [header, ...records].join("\n");
+    }
+    return "";
+  };
+
+  // Handler helps to download the csv file
+  const handleDownload = () => {
+    const csvData = convertToCSV();
+    const csvFile = new Blob([csvData], { type: "text/csv" });
+    const csvURL = URL.createObjectURL(csvFile);
+
+    const tempLink = document.createElement("a");
+    tempLink.href = csvURL;
+    tempLink.setAttribute("download", `Page-${currentPage + 1}-Data.csv`);
+    tempLink.click();
+  };
+
+  // Handler helps to get pagination data & process the current page rows
+  const handlePageChange = ({ page, pageSize }) => setCurrentPageData(rows, page, pageSize);
+
   return (
     <div className="App">
       <Header
         searchText={searchText}
         handleChange={handleChange}
         handleSearch={handleSearch}
+        handleDownload={handleDownload}
         handleClearSearch={handleClearSearch}
       />
-      <SongsTable rows={rows} loader={loader} />
+      <SongsTable rows={rows} loader={loader} handlePageChange={handlePageChange} />
     </div>
   );
 };

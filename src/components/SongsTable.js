@@ -3,6 +3,9 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, LinearProgress } from "@mui/material";
 
+// internal imports
+import { TABLE_PAGE_SIZE } from "../utils/constants";
+
 const styles = {
   box: {
     height: 600
@@ -24,20 +27,22 @@ const columns = [
 ];
 
 // Songs Table
-const SongsTable = ({ rows = [], loader = false }) => (
+const SongsTable = ({ rows = [], loader = false, handlePageChange }) => (
   <Box sx={styles.box}>
     <DataGrid
       rows={rows}
       columns={columns}
       initialState={{
         pagination: {
-          paginationModel: { page: 0, pageSize: 10 }
+          paginationModel: { page: 0, pageSize: TABLE_PAGE_SIZE }
         }
       }}
+      pageSizeOptions={[TABLE_PAGE_SIZE]}
       slots={{
         loadingOverlay: LinearProgress
       }}
       loading={loader}
+      onPaginationModelChange={handlePageChange}
     />
   </Box>
 );
