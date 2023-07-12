@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
 // external imports
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
@@ -17,32 +16,16 @@ const columns = [
   { field: "num_segments", headerName: "Num_segments" }
 ];
 
-const SongsTable = () => {
-  const [rows, setRows] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/playlist`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data >>", data);
-        setRows(data);
-      })
-      .catch((error) => {
-        console.error("Error >>", error);
-      });
-  }, []);
-
-  return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 10 }
-        }
-      }}
-    />
-  );
-};
+const SongsTable = ({ rows = [] }) => (
+  <DataGrid
+    rows={rows}
+    columns={columns}
+    initialState={{
+      pagination: {
+        paginationModel: { page: 0, pageSize: 10 }
+      }
+    }}
+  />
+);
 
 export default SongsTable;
