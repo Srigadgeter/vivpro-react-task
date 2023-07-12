@@ -2,7 +2,7 @@
 import React from "react";
 import { Alert, Snackbar } from "@mui/material";
 
-// Toaster
+// Toaster Component
 const Toaster = ({ open = false, message = "", type = "success", handleClose }) => (
   <Snackbar
     open={open}
