@@ -34,7 +34,8 @@
     "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,md,json}\" --config ./.prettierrc"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,md,json}\" --config ./.prettierrc",
+    "start-json-server": "json-server --watch ./src/mocks/playlist.json --port 8000"
   },
   "husky": {
     "hooks": {
