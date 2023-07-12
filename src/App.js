@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // internal imports
 import Header from "./components/Header";
+import Toaster from "./components/Toaster";
 import SongsTable from "./components/SongsTable";
 import { TABLE_PAGE_SIZE } from "./utils/constants";
 
@@ -16,7 +17,10 @@ const App = () => {
   const [loader, setLoader] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageRows, setCurrentPageRows] = useState([]);
+  const [showToaster, setShowToaster] = useState(false);
+  const [toastInfo, setToastInfo] = useState({});
 
+  // Generic handler to set the current page number & data
   const setCurrentPageData = (data, page, pageSize) => {
     const startIndex = page ? page * pageSize : page;
     const endIndex = (page + 1) * pageSize;
@@ -25,6 +29,7 @@ const App = () => {
     setCurrentPageRows(currentRows);
   };
 
+  // Generic handler to make api call to fetch data
   const fetchData = (title = "") => {
     setLoader(true);
     const url = `http://localhost:8000/playlist${title ? `?title=${title}` : ""}`;
@@ -33,9 +38,19 @@ const App = () => {
       .then((data) => {
         setRows(data);
         setCurrentPageData(data, currentPage, TABLE_PAGE_SIZE);
+        setShowToaster(true);
+        setToastInfo({
+          type: "success",
+          message: "Data fetched successfully"
+        });
       })
       .catch((error) => {
         console.error("Error >>", error);
+        setShowToaster(true);
+        setToastInfo({
+          type: "error",
+          message: error
+        });
       })
       .finally(() => setLoader(false));
   };
@@ -85,10 +100,24 @@ const App = () => {
     tempLink.href = csvURL;
     tempLink.setAttribute("download", `Page-${currentPage + 1}-Data.csv`);
     tempLink.click();
+    setShowToaster(true);
+    setToastInfo({
+      type: "success",
+      message: "Data downloaded successfully"
+    });
   };
 
   // Handler helps to get pagination data & process the current page rows
   const handlePageChange = ({ page, pageSize }) => setCurrentPageData(rows, page, pageSize);
+
+  // Handler helps to close the toaster
+  const handleCloseToaster = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowToaster(false);
+  };
 
   return (
     <div className="App">
@@ -100,6 +129,12 @@ const App = () => {
         handleClearSearch={handleClearSearch}
       />
       <SongsTable rows={rows} loader={loader} handlePageChange={handlePageChange} />
+      <Toaster
+        open={showToaster}
+        type={toastInfo?.type}
+        message={toastInfo?.message}
+        handleClose={handleCloseToaster}
+      />
     </div>
   );
 };
