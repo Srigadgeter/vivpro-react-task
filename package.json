@@ -13,7 +13,6 @@
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
@@ -23,21 +22,18 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^8.0.3",
-    "json-server": "^0.17.3",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0"
   },
   "scripts": {
-    "start": "concurrently \"yarn start-react\" \"yarn start-json-server\"",
-    "start-react": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,md,json}\" --config ./.prettierrc",
-    "start-json-server": "json-server --watch ./src/mocks/playlist.json --port 8000"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,md,json}\" --config ./.prettierrc"
   },
   "husky": {
     "hooks": {
