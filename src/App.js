@@ -50,7 +50,7 @@ const App = () => {
         setShowToaster(true);
         setToastInfo({
           variant: "error",
-          message: error
+          message: error?.message || "Something went wrong"
         });
       })
       .finally(() => setLoader(false));
