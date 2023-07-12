@@ -63,8 +63,10 @@ const App = () => {
 
   // Handler helps to fetch backend data based on searchText
   const handleSearch = () => {
-    setIsSearched(true);
-    fetchData(searchText);
+    if (searchText) {
+      setIsSearched(true);
+      fetchData(searchText);
+    }
   };
 
   // Handler helps to clear the search
@@ -92,19 +94,21 @@ const App = () => {
 
   // Handler helps to download the csv file
   const handleDownload = () => {
-    const csvData = convertToCSV();
-    const csvFile = new Blob([csvData], { type: "text/csv" });
-    const csvURL = URL.createObjectURL(csvFile);
+    if (rows.length > 0) {
+      const csvData = convertToCSV();
+      const csvFile = new Blob([csvData], { type: "text/csv" });
+      const csvURL = URL.createObjectURL(csvFile);
 
-    const tempLink = document.createElement("a");
-    tempLink.href = csvURL;
-    tempLink.setAttribute("download", `Page-${currentPage + 1}-Data.csv`);
-    tempLink.click();
-    setShowToaster(true);
-    setToastInfo({
-      type: "success",
-      message: "Data downloaded successfully"
-    });
+      const tempLink = document.createElement("a");
+      tempLink.href = csvURL;
+      tempLink.setAttribute("download", `Page-${currentPage + 1}-Data.csv`);
+      tempLink.click();
+      setShowToaster(true);
+      setToastInfo({
+        type: "success",
+        message: "Data downloaded successfully"
+      });
+    }
   };
 
   // Handler helps to get pagination data & process the current page rows
@@ -122,6 +126,7 @@ const App = () => {
   return (
     <div className="App">
       <Header
+        rows={rows}
         searchText={searchText}
         handleChange={handleChange}
         handleSearch={handleSearch}

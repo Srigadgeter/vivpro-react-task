@@ -23,7 +23,14 @@ const styles = {
 };
 
 // Header Component
-const Header = ({ searchText, handleChange, handleSearch, handleDownload, handleClearSearch }) => (
+const Header = ({
+  rows = [],
+  searchText = "",
+  handleChange,
+  handleSearch,
+  handleDownload,
+  handleClearSearch
+}) => (
   <Stack direction="row" justifyContent="space-between" spacing={5} sx={styles.stack}>
     <Stack direction="row" spacing={1} sx={styles.stack2}>
       <TextField
@@ -46,7 +53,12 @@ const Header = ({ searchText, handleChange, handleSearch, handleDownload, handle
         onChange={handleChange}
         fullWidth
       />
-      <Button variant="contained" color="primary" onClick={handleSearch} sx={styles.getSongBtn}>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={handleSearch}
+        sx={styles.getSongBtn}
+        disabled={!searchText}>
         Get Song
       </Button>
     </Stack>
@@ -55,7 +67,8 @@ const Header = ({ searchText, handleChange, handleSearch, handleDownload, handle
       variant="contained"
       sx={styles.downloadBtn}
       onClick={handleDownload}
-      endIcon={<DownloadIcon />}>
+      endIcon={<DownloadIcon />}
+      disabled={rows.length === 0}>
       Download page data
     </Button>
   </Stack>
