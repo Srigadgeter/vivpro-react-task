@@ -4,6 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
 
+// Header component styles
 const styles = {
   stack: {
     m: 1
@@ -21,6 +22,17 @@ const styles = {
     minWidth: 250
   }
 };
+
+/**
+ *
+ * @param {array} rows - Table records
+ * @param {string} searchText - Search context
+ * @param {function} handleChange - Handler helps to track the search field changes
+ * @param {function} handleSearch - Handler helps to trigger the search
+ * @param {function} handleDownload - Handler helps to download the csv file for the current page data
+ * @param {function} handleClearSearch - Handler helps to clear the search
+ *
+ */
 
 // Header Component
 const Header = ({

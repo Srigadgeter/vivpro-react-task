@@ -6,12 +6,14 @@ import { Box, LinearProgress } from "@mui/material";
 // internal imports
 import { TABLE_PAGE_SIZE } from "../utils/constants";
 
+// SongsTable component styles
 const styles = {
   box: {
     height: 600
   }
 };
 
+// Table columns configuration
 const columns = [
   { field: "index", headerName: "Index" },
   { field: "id", headerName: "ID", width: 250 },
@@ -25,6 +27,14 @@ const columns = [
   { field: "num_sections", headerName: "Num_sections" },
   { field: "num_segments", headerName: "Num_segments" }
 ];
+
+/**
+ *
+ * @param {array} rows - Table records
+ * @param {boolean} loader - State of the loader
+ * @param {function} handlePageChange - Handler helps to track page changes
+ *
+ */
 
 // Songs Table
 const SongsTable = ({ rows = [], loader = false, handlePageChange }) => (

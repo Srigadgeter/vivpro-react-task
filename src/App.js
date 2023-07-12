@@ -10,6 +10,7 @@ import { TABLE_PAGE_SIZE } from "./utils/constants";
 // styles
 import "./App.css";
 
+// App Component
 const App = () => {
   const [rows, setRows] = useState([]);
   const [searchText, setSearchText] = useState("");
